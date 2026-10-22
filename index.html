@@ -712,12 +712,13 @@ var STAGES=[
 ];
 var TRACKS=[
   {id:'ptable',name:'The periodic table',short:'Periodic table',mult:1},
+  {id:'symbols',name:'Periodic table: names and symbols',short:'Names and symbols',mult:0.8},
   {id:'states',name:'States of matter',short:'States of matter',mult:1},
   {id:'cells',name:'Plant and animal cells',short:'Cells',mult:1},
   {id:'mixed',name:'Mixed: a bit of everything',short:'Mixed',mult:1.2}
 ];
 var TOPICS=['ptable','states','cells'];
-var TOPIC_PRE={ptable:'pt',states:'st',cells:'ce'};
+var TOPIC_PRE={ptable:'pt',symbols:'sy',states:'st',cells:'ce'};
 var BANK_TEXT={
 ptable:`
 # ---------- lower secondary, easier ----------
@@ -842,6 +843,180 @@ i2|A neutral atom has 19 protons and 20 neutrons. What is its nucleon number?|39
 i2|A neutral atom has 19 protons and 20 neutrons. How many electrons does it have?|19|20|39|1
 i2|Which of these elements would you expect to have the highest melting point?|Tungsten|Sodium|Chlorine|Neon
 i2|Which of these elements is a good catalyst?|Iron|Sodium|Neon|Chlorine
+`,
+symbols:`
+# ---------- lower secondary, easier ----------
+k1|What is the chemical symbol for hydrogen?|H|Hy|Hg|He
+k1|What is the chemical symbol for helium?|He|H|Hg|Br
+k1|What is the chemical symbol for carbon?|C|Ca|Cu|Cl
+k1|What is the chemical symbol for nitrogen?|N|Ni|Na|Ne
+k1|What is the chemical symbol for oxygen?|O|Ox|C|P
+k1|What is the chemical symbol for sodium?|Na|So|S|Ne
+k1|What is the chemical symbol for magnesium?|Mg|Ma|M|K
+k1|What is the chemical symbol for aluminium?|Al|A|Au|Ag
+k1|What is the chemical symbol for chlorine?|Cl|Ch|C|Ca
+k1|What is the chemical symbol for calcium?|Ca|C|Cu|Cl
+k1|What is the chemical symbol for iron?|Fe|Ir|I|F
+k1|What is the chemical symbol for copper?|Cu|Co|C|Ca
+k1|What is the chemical symbol for zinc?|Zn|Zi|Z|Li
+k1|What is the chemical symbol for gold?|Au|Go|G|Ar
+k1|What is the chemical symbol for silver?|Ag|Si|S|Ar
+k1|What is the chemical symbol for potassium?|K|Po|P|F
+k1|Which element has the symbol H?|Hydrogen|Helium|Potassium|Bromine
+k1|Which element has the symbol He?|Helium|Hydrogen|Calcium|Argon
+k1|Which element has the symbol C?|Carbon|Calcium|Copper|Chlorine
+k1|Which element has the symbol N?|Nitrogen|Nickel|Neon|Helium
+k1|Which element has the symbol O?|Oxygen|Platinum|Hydrogen|Potassium
+k1|Which element has the symbol Na?|Sodium|Nickel|Neon|Nitrogen
+k1|Which element has the symbol Mg?|Magnesium|Mercury|Sodium|Silver
+k1|Which element has the symbol Al?|Aluminium|Argon|Iodine|Sodium
+k1|Which element has the symbol Cl?|Chlorine|Copper|Carbon|Calcium
+k1|Which element has the symbol Ca?|Calcium|Chlorine|Carbon|Copper
+k1|Which element has the symbol Fe?|Iron|Fluorine|Neon|Tin
+k1|Which element has the symbol Cu?|Copper|Carbon|Chlorine|Calcium
+k1|Which element has the symbol Zn?|Zinc|Phosphorus|Sulfur|Platinum
+k1|Which element has the symbol Au?|Gold|Aluminium|Argon|Silicon
+k1|Which element has the symbol Ag?|Silver|Aluminium|Argon|Magnesium
+k1|Which element has the symbol K?|Potassium|Carbon|Calcium|Iron
+# ---------- lower secondary, harder ----------
+k2|What is the chemical symbol for lithium?|Li|L|Al|Ca
+k2|What is the chemical symbol for neon?|Ne|N|Ni|Na
+k2|What is the chemical symbol for silicon?|Si|S|Sn|Cl
+k2|What is the chemical symbol for phosphorus?|P|Ph|Pt|Pb
+k2|What is the chemical symbol for sulfur?|S|Su|Si|Sn
+k2|What is the chemical symbol for argon?|Ar|A|Au|Al
+k2|What is the chemical symbol for mercury?|Hg|Me|M|H
+k2|What is the chemical symbol for lead?|Pb|Le|L|P
+k2|What is the chemical symbol for tin?|Sn|Ti|T|Si
+k2|What is the chemical symbol for iodine?|I|Io|Sn|Zn
+k2|What is the chemical symbol for bromine?|Br|B|Pb|Sn
+k2|What is the chemical symbol for fluorine?|F|Fl|Fe|S
+k2|What is the chemical symbol for nickel?|Ni|N|Na|Ne
+k2|What is the chemical symbol for platinum?|Pt|Pl|P|Pb
+k2|Which element has the symbol Li?|Lithium|Lead|Carbon|Potassium
+k2|Which element has the symbol Ne?|Neon|Nickel|Nitrogen|Tin
+k2|Which element has the symbol Si?|Silicon|Sodium|Sulfur|Silver
+k2|Which element has the symbol P?|Phosphorus|Platinum|Potassium|Iron
+k2|Which element has the symbol S?|Sulfur|Silicon|Sodium|Silver
+k2|Which element has the symbol Ar?|Argon|Aluminium|Nitrogen|Mercury
+k2|Which element has the symbol Hg?|Mercury|Hydrogen|Helium|Iron
+k2|Which element has the symbol Pb?|Lead|Potassium|Platinum|Phosphorus
+k2|Which element has the symbol Sn?|Tin|Sulfur|Silver|Silicon
+k2|Which element has the symbol I?|Iodine|Iron|Mercury|Gold
+k2|Which element has the symbol Br?|Bromine|Nickel|Iron|Silicon
+k2|Which element has the symbol F?|Fluorine|Lithium|Potassium|Platinum
+k2|Which element has the symbol Ni?|Nickel|Neon|Nitrogen|Oxygen
+k2|Which element has the symbol Pt?|Platinum|Potassium|Phosphorus|Neon
+# ---------- IGCSE, easier ----------
+i1|What is the chemical symbol for hydrogen?|H|Hy|Hg|He
+i1|What is the chemical symbol for helium?|He|H|Hg|Zn
+i1|What is the chemical symbol for carbon?|C|Ca|Cd|Co
+i1|What is the chemical symbol for nitrogen?|N|Ni|Ne|Na
+i1|What is the chemical symbol for oxygen?|O|Ox|K|Cu
+i1|What is the chemical symbol for sodium?|Na|So|S|Ni
+i1|What is the chemical symbol for magnesium?|Mg|Ma|M|Mn
+i1|What is the chemical symbol for aluminium?|Al|A|As|Ag
+i1|What is the chemical symbol for chlorine?|Cl|Ch|C|Cu
+i1|What is the chemical symbol for calcium?|Ca|C|Co|Cr
+i1|What is the chemical symbol for iron?|Fe|Ir|I|F
+i1|What is the chemical symbol for copper?|Cu|Co|C|Ca
+i1|What is the chemical symbol for zinc?|Zn|Zi|Z|C
+i1|What is the chemical symbol for gold?|Au|Go|G|Ag
+i1|What is the chemical symbol for silver?|Ag|Si|S|Al
+i1|What is the chemical symbol for potassium?|K|Po|P|Kr
+i1|What is the chemical symbol for lithium?|Li|L|W|Se
+i1|What is the chemical symbol for neon?|Ne|N|Ni|Na
+i1|What is the chemical symbol for silicon?|Si|S|Sn|Sb
+i1|What is the chemical symbol for phosphorus?|P|Ph|Pb|Pt
+i1|What is the chemical symbol for sulfur?|S|Su|Si|Sb
+i1|What is the chemical symbol for argon?|Ar|A|Al|As
+i1|What is the chemical symbol for mercury?|Hg|Me|M|H
+i1|What is the chemical symbol for lead?|Pb|Le|L|Pt
+i1|What is the chemical symbol for tin?|Sn|Ti|T|Se
+i1|What is the chemical symbol for iodine?|I|Io|Ir|P
+i1|What is the chemical symbol for bromine?|Br|B|Be|Bi
+i1|What is the chemical symbol for fluorine?|F|Fl|Fe|Sn
+i1|What is the chemical symbol for nickel?|Ni|N|Na|Ne
+i1|What is the chemical symbol for platinum?|Pt|Pl|P|Pb
+i1|Which element has the symbol H?|Hydrogen|Helium|Magnesium|Bromine
+i1|Which element has the symbol He?|Helium|Hydrogen|Iodine|Nitrogen
+i1|Which element has the symbol C?|Carbon|Cadmium|Chlorine|Chromium
+i1|Which element has the symbol N?|Nitrogen|Neon|Nickel|Strontium
+i1|Which element has the symbol O?|Oxygen|Krypton|Argon|Radon
+i1|Which element has the symbol Na?|Sodium|Neon|Nickel|Nitrogen
+i1|Which element has the symbol Mg?|Magnesium|Manganese|Mercury|Neon
+i1|Which element has the symbol Al?|Aluminium|Antimony|Arsenic|Argon
+i1|Which element has the symbol Cl?|Chlorine|Chromium|Cadmium|Caesium
+i1|Which element has the symbol Ca?|Calcium|Carbon|Chromium|Caesium
+i1|Which element has the symbol Fe?|Iron|Fluorine|Xenon|Uranium
+i1|Which element has the symbol Cu?|Copper|Caesium|Calcium|Cobalt
+i1|Which element has the symbol Zn?|Zinc|Neon|Radon|Hydrogen
+i1|Which element has the symbol Au?|Gold|Arsenic|Aluminium|Argon
+i1|Which element has the symbol Ag?|Silver|Arsenic|Antimony|Argon
+i1|Which element has the symbol K?|Potassium|Krypton|Uranium|Aluminium
+i1|Which element has the symbol Li?|Lithium|Lead|Potassium|Gold
+i1|Which element has the symbol Ne?|Neon|Nickel|Nitrogen|Calcium
+i1|Which element has the symbol Si?|Silicon|Silver|Sulfur|Selenium
+i1|Which element has the symbol P?|Phosphorus|Potassium|Platinum|Rubidium
+i1|Which element has the symbol S?|Sulfur|Sodium|Silver|Strontium
+i1|Which element has the symbol Ar?|Argon|Aluminium|Arsenic|Antimony
+i1|Which element has the symbol Hg?|Mercury|Hydrogen|Helium|Iridium
+i1|Which element has the symbol Pb?|Lead|Platinum|Phosphorus|Potassium
+i1|Which element has the symbol Sn?|Tin|Silver|Strontium|Sodium
+i1|Which element has the symbol I?|Iodine|Iridium|Iron|Sulfur
+i1|Which element has the symbol Br?|Bromine|Beryllium|Barium|Bismuth
+i1|Which element has the symbol F?|Fluorine|Selenium|Boron|Sulfur
+i1|Which element has the symbol Ni?|Nickel|Neon|Nitrogen|Barium
+i1|Which element has the symbol Pt?|Platinum|Phosphorus|Potassium|Barium
+# ---------- IGCSE, harder ----------
+i2|What is the chemical symbol for beryllium?|Be|B|Br|Ba
+i2|What is the chemical symbol for boron?|B|Bo|Ba|Bi
+i2|What is the chemical symbol for titanium?|Ti|T|Ag|Ni
+i2|What is the chemical symbol for vanadium?|V|Va|Cl|I
+i2|What is the chemical symbol for chromium?|Cr|Ch|C|Cl
+i2|What is the chemical symbol for manganese?|Mn|Ma|M|Mg
+i2|What is the chemical symbol for cobalt?|Co|C|Cs|Ca
+i2|What is the chemical symbol for gallium?|Ga|G|Ge|Ir
+i2|What is the chemical symbol for germanium?|Ge|G|Ga|Pt
+i2|What is the chemical symbol for arsenic?|As|Ar|A|Ag
+i2|What is the chemical symbol for selenium?|Se|S|Si|Sr
+i2|What is the chemical symbol for krypton?|Kr|K|Mn|S
+i2|What is the chemical symbol for rubidium?|Rb|Ru|R|Rn
+i2|What is the chemical symbol for strontium?|Sr|St|S|Sb
+i2|What is the chemical symbol for cadmium?|Cd|Ca|C|Cl
+i2|What is the chemical symbol for antimony?|Sb|An|A|Si
+i2|What is the chemical symbol for xenon?|Xe|X|As|Ca
+i2|What is the chemical symbol for caesium?|Cs|Ca|C|Cd
+i2|What is the chemical symbol for barium?|Ba|B|Be|Br
+i2|What is the chemical symbol for tungsten?|W|Tu|T|As
+i2|What is the chemical symbol for uranium?|U|Ur|Se|Br
+i2|What is the chemical symbol for radon?|Rn|Ra|R|Rb
+i2|What is the chemical symbol for bismuth?|Bi|B|Ba|Br
+i2|What is the chemical symbol for iridium?|Ir|I|Ag|H
+i2|Which element has the symbol Be?|Beryllium|Bromine|Barium|Bismuth
+i2|Which element has the symbol B?|Boron|Bismuth|Bromine|Beryllium
+i2|Which element has the symbol Ti?|Titanium|Tin|Tungsten|Platinum
+i2|Which element has the symbol V?|Vanadium|Uranium|Zinc|Barium
+i2|Which element has the symbol Cr?|Chromium|Cobalt|Chlorine|Calcium
+i2|Which element has the symbol Mn?|Manganese|Magnesium|Mercury|Lead
+i2|Which element has the symbol Co?|Cobalt|Chlorine|Caesium|Cadmium
+i2|Which element has the symbol Ga?|Gallium|Gold|Germanium|Lead
+i2|Which element has the symbol Ge?|Germanium|Gold|Gallium|Selenium
+i2|Which element has the symbol As?|Arsenic|Argon|Aluminium|Antimony
+i2|Which element has the symbol Se?|Selenium|Strontium|Sulfur|Sodium
+i2|Which element has the symbol Kr?|Krypton|Nitrogen|Cadmium|Nickel
+i2|Which element has the symbol Rb?|Rubidium|Radon|Fluorine|Vanadium
+i2|Which element has the symbol Sr?|Strontium|Silver|Sulfur|Silicon
+i2|Which element has the symbol Cd?|Cadmium|Copper|Cobalt|Carbon
+i2|Which element has the symbol Sb?|Antimony|Silicon|Selenium|Sulfur
+i2|Which element has the symbol Xe?|Xenon|Cobalt|Iridium|Beryllium
+i2|Which element has the symbol Cs?|Caesium|Cadmium|Calcium|Cobalt
+i2|Which element has the symbol Ba?|Barium|Bromine|Bismuth|Beryllium
+i2|Which element has the symbol W?|Tungsten|Boron|Calcium|Magnesium
+i2|Which element has the symbol U?|Uranium|Silicon|Argon|Aluminium
+i2|Which element has the symbol Rn?|Radon|Rubidium|Neon|Arsenic
+i2|Which element has the symbol Bi?|Bismuth|Barium|Beryllium|Boron
+i2|Which element has the symbol Ir?|Iridium|Iodine|Iron|Nitrogen
 `,
 states:`
 # ---------- lower secondary, easier ----------
