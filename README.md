@@ -11,8 +11,9 @@ A live science quiz race for the classroom, built from the Math Mayhem times tab
 - Profiles, class lists, a leaderboard and teacher tools (PIN protected), same as the maths game.
 
 ## How it is built
-- `index.html` is the whole game in one file. It talks to the same Supabase project as the maths game, but only to its own `sci_*` functions and `sci` tables, so maths and science scores never mix.
-- `database/1_setup.sql` creates the science tables and functions. Run it once in the Supabase SQL Editor. It also gives the maths teacher the same name and PIN here.
+- `index.html` is the whole game in one file. It talks to its own Supabase project (`science-mayhem`) using the public key, and can only call the game's `sci_*` functions.
+- `database/1_setup.sql` creates the tables and functions. Run it once in the Supabase SQL Editor.
+- `database/2_teacher.sql` makes you the teacher. Put your own PIN in it and run it once.
 
 ## The questions
 All 324 questions are in `index.html`, in the `BANK_TEXT` block in `index.html` (search for it), one per line:

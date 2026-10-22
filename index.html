@@ -425,8 +425,8 @@ var toastTO;
 function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.hidden=false;clearTimeout(toastTO);toastTO=setTimeout(function(){t.hidden=true},1900)}
 
 /* ---------- game server (Supabase): live rooms use Realtime presence, profiles use a few locked-down functions ---------- */
-var SUPABASE_URL='https://gkgoviulsyjqvwlzyiib.supabase.co';
-var SUPABASE_KEY='sb_publishable_F4i7QjnrLSZiGYKhv2hOaw_ELREw-1r'; /* public "anon" key: safe to ship, the database only exposes the sci_* functions */
+var SUPABASE_URL='https://qjdvalmqaipaageoudam.supabase.co';
+var SUPABASE_KEY='sb_publishable_SuIMtJwhPWxHX4_MXDZ4Yw_LHw99Iz-'; /* public "anon" key: safe to ship, the database only exposes the sci_* functions */
 function makeRoomApi(sb){
   // Presence is rate-limited by Supabase (5 updates / 30 s per client), so it is used ONLY for
   // "who is in the room" (tracked once + rare slow updates). All live game state travels by Broadcast.
