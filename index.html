@@ -713,12 +713,13 @@ var STAGES=[
 var TRACKS=[
   {id:'ptable',name:'The periodic table',short:'Periodic table',mult:1},
   {id:'symbols',name:'Periodic table: names and symbols',short:'Names and symbols',mult:0.8},
+  {id:'bonding',name:'Atomic bonding and structure',short:'Bonding',mult:1},
   {id:'states',name:'States of matter',short:'States of matter',mult:1},
   {id:'cells',name:'Plant and animal cells',short:'Cells',mult:1},
   {id:'mixed',name:'Mixed: a bit of everything',short:'Mixed',mult:1.2}
 ];
-var TOPICS=['ptable','states','cells'];
-var TOPIC_PRE={ptable:'pt',symbols:'sy',states:'st',cells:'ce'};
+var TOPICS=['ptable','bonding','states','cells'];
+var TOPIC_PRE={ptable:'pt',symbols:'sy',bonding:'bo',states:'st',cells:'ce'};
 var BANK_TEXT={
 ptable:`
 # ---------- lower secondary, easier ----------
@@ -1017,6 +1018,123 @@ i2|Which element has the symbol U?|Uranium|Silicon|Argon|Aluminium
 i2|Which element has the symbol Rn?|Radon|Rubidium|Neon|Arsenic
 i2|Which element has the symbol Bi?|Bismuth|Barium|Beryllium|Boron
 i2|Which element has the symbol Ir?|Iridium|Iodine|Iron|Nitrogen
+`,
+bonding:`
+# ---------- lower secondary, easier ----------
+k1|Everything is made of tiny particles called...|atoms|cells|crystals|grains
+k1|Which particle in an atom has a positive charge?|Proton|Neutron|Electron|Nucleus
+k1|Which particle in an atom has a negative charge?|Electron|Proton|Neutron|Nucleus
+k1|Which particle in an atom has no charge?|Neutron|Proton|Electron|Ion
+k1|Where are the protons and neutrons in an atom?|In the nucleus|In shells around the nucleus|Outside the atom|Between the electrons
+k1|Where are the electrons in an atom?|In shells around the nucleus|In the nucleus|Inside the neutrons|Inside the protons
+k1|The centre of an atom is called the...|nucleus|shell|bond|ion
+k1|An atom has no overall charge because it has equal numbers of...|protons and electrons|protons and neutrons|neutrons and electrons|shells and electrons
+k1|Oxygen is an element. This means it is made of...|only one type of atom|different elements joined together|a mixture of gases|lots of different atoms
+k1|A compound is made of...|two or more elements chemically joined together|one type of atom|a mixture of substances|atoms that are not bonded
+k1|Which of these is a compound?|Water|Oxygen|Iron|Helium
+k1|Which of these is an element?|Iron|Water|Salt|Steel
+k1|The formula of water is H2O. How many hydrogen atoms are in one molecule?|2|1|3|4
+k1|The formula of carbon dioxide is CO2. Which elements does it contain?|Carbon and oxygen|Carbon and hydrogen|Only oxygen|Carbon and nitrogen
+k1|How many atoms are in one molecule of CO2?|3|2|1|4
+k1|What is the formula of water?|H2O|HO2|H2O2|OH
+k1|What is the formula of carbon dioxide?|CO2|CO|C2O|O2C
+k1|What is the chemical formula for oxygen gas?|O2|O|O3|2O
+k1|An atom that has gained or lost electrons is called an...|ion|isotope|element|molecule
+k1|If an atom loses an electron it becomes...|a positive ion|a negative ion|a neutral atom|a molecule
+k1|If an atom gains an electron it becomes...|a negative ion|a positive ion|a neutral atom|a compound
+k1|How many protons does a hydrogen atom have?|1|2|0|3
+k1|A carbon atom has 6 protons. How many electrons does it have?|6|12|0|3
+k1|Which particle is the lightest?|Electron|Proton|Neutron|They all weigh the same
+k1|A chemical bond is...|a strong attraction that holds atoms together|a mixture of two substances|a type of atom|a gap between two atoms
+k1|Which of these is a mixture?|Air|Water|Carbon dioxide|Oxygen
+k1|The chemical formula NaCl is for...|sodium chloride (table salt)|sodium oxide|nitrogen chloride|sodium carbonate
+k1|What is a molecule?|Two or more atoms joined by bonds|A single atom|A charged atom|A tiny crystal
+# ---------- lower secondary, harder ----------
+k2|How many electrons can the first shell of an atom hold?|2|8|1|18
+k2|How many electrons can the second shell of an atom hold?|8|2|18|4
+k2|A sodium atom has 11 electrons. How are they arranged in shells?|2,8,1|2,9|8,3|2,2,7
+k2|A chlorine atom has 17 electrons. How many are in its outer shell?|7|8|17|1
+k2|Magnesium is in Group 2. How many electrons does it have in its outer shell?|2|8|12|1
+k2|Which atoms have a full outer shell of electrons?|Noble gases|Alkali metals|Halogens|Transition metals
+k2|Ionic bonding usually happens between...|a metal and a non-metal|two metals|two non-metals|two noble gases
+k2|A covalent bond is formed when atoms...|share electrons|transfer electrons|lose protons|gain neutrons
+k2|Which substance has ionic bonds?|Sodium chloride|Water|Carbon dioxide|Methane
+k2|Which substance has covalent bonds between its atoms?|Water|Sodium chloride|Magnesium oxide|Copper
+k2|Which substance has metallic bonding?|Copper|Water|Salt|Diamond
+k2|When sodium reacts with chlorine, what happens to the sodium atom?|It loses one electron|It gains one electron|It shares an electron|It loses a proton
+k2|When sodium reacts with chlorine, what happens to the chlorine atom?|It gains one electron|It loses one electron|It shares an electron|It loses a proton
+k2|What is the formula of sodium chloride?|NaCl|Na2Cl|NaCl2|SCl
+k2|What is the formula of magnesium oxide?|MgO|Mg2O|MgO2|MnO
+k2|What is the formula of methane?|CH4|CH2|C2H4|C4H
+k2|What is the formula of ammonia?|NH3|NH4|N3H|NO3
+k2|Hydrogen gas is made of molecules with the formula...|H2|H|H3|H4
+k2|An atom has 11 protons and 12 neutrons. What is its mass number?|23|11|12|1
+k2|An atom has 6 protons and 6 neutrons. What is its mass number?|12|6|18|0
+k2|Diamond and graphite are both forms of...|carbon|silicon|lead|iodine
+k2|Which of these is the hardest natural substance?|Diamond|Graphite|Gold|Iron
+k2|How many atoms are in one molecule of H2SO4?|7|3|4|6
+k2|Why do ionic compounds have high melting points?|Strong forces between oppositely charged ions|Weak forces between molecules|They contain free electrons|They are made of tiny molecules
+k2|Which pair of elements forms a covalent compound?|Carbon and oxygen|Sodium and chlorine|Magnesium and oxygen|Potassium and bromine
+k2|Atoms of the same element with different numbers of neutrons are called...|isotopes|ions|molecules|compounds
+k2|Each covalent bond is made of...|a shared pair of electrons|a transferred electron|two protons|a neutron
+# ---------- IGCSE, easier ----------
+i1|What is the charge on an ion of magnesium?|2+|1+|2-|1-
+i1|What is the formula of the aluminium ion?|Al3+|Al+|Al2+|Al3-
+i1|What is the formula of the fluoride ion?|F-|F+|F2-|F2
+i1|What is the formula of the sulfide ion?|S2-|S-|S2+|S
+i1|What is the formula of magnesium chloride?|MgCl2|MgCl|Mg2Cl|Mg2Cl2
+i1|What is the formula of sodium oxide?|Na2O|NaO|NaO2|Na2O2
+i1|What is the formula of aluminium oxide?|Al2O3|AlO|Al3O2|Al2O
+i1|What is the formula of calcium chloride?|CaCl2|CaCl|Ca2Cl|CaCl3
+i1|What is the formula of potassium bromide?|KBr|K2Br|KBr2|PBr
+i1|Ionic bonding involves...|transfer of electrons from a metal atom to a non-metal atom|sharing of electrons between non-metal atoms|a sea of delocalised electrons|attraction between molecules
+i1|A covalent bond is...|a shared pair of electrons between two atoms|an attraction between oppositely charged ions|a transfer of protons|an attraction between metal ions and electrons
+i1|How many electrons are shared in a double covalent bond?|4|2|6|8
+i1|Which molecule contains a triple bond between its atoms?|Nitrogen, N2|Oxygen, O2|Hydrogen, H2|Chlorine, Cl2
+i1|Which molecule contains a double bond?|Oxygen, O2|Hydrogen, H2|Chlorine, Cl2|Hydrogen chloride, HCl
+i1|How many covalent bonds does a carbon atom make in methane, CH4?|4|1|2|8
+i1|Why do simple molecular substances have low melting and boiling points?|The forces between molecules are weak|The covalent bonds in the molecules are weak|They contain ions|They have giant structures
+i1|Why do simple molecular substances not conduct electricity?|They have no free electrons or ions to carry charge|They have free electrons that cannot move|They are all gases|They contain metal ions
+i1|Why can ionic compounds conduct electricity when molten or dissolved but not when solid?|The ions are free to move only when molten or dissolved|The electrons are free to move only when molten|The molecules break apart|They contain delocalised electrons when solid
+i1|Why do ionic compounds have high melting points?|There are strong electrostatic forces between oppositely charged ions|The molecules are large|The covalent bonds are strong|They contain delocalised electrons
+i1|Which statement describes metallic bonding?|Positive ions in a sea of delocalised electrons|Shared pairs of electrons|Oppositely charged ions in a lattice|Weak forces between molecules
+i1|Why are metals good conductors of electricity?|They have delocalised electrons that can move|They have ions that can move|They have shared pairs of electrons|They have weak forces between molecules
+i1|Why can metals be bent and shaped (malleable)?|Layers of atoms can slide over each other|The ions are free to move around|The molecules are weak|The electrons are held rigidly
+i1|Diamond is very hard because...|each carbon atom is bonded to four others in a giant structure|its layers can slide|it has delocalised electrons|it is made of small molecules
+i1|Graphite is soft and slippery because...|its layers are held together by weak forces|each carbon bonds to four others|it has ions|it is made of small molecules
+i1|Graphite conducts electricity because...|each carbon atom has a delocalised electron|it contains ions that move|it is a metal|it has free protons
+i1|Silicon(IV) oxide has a very high melting point because...|it has a giant covalent structure with many strong bonds|it has weak forces between molecules|it has delocalised electrons|it contains ions that move
+i1|Which substance has a giant ionic structure?|Sodium chloride|Water|Diamond|Iodine
+i1|How many electrons are in an oxide ion, O2- (proton number 8)?|10|8|6|16
+i1|How many electrons are in a magnesium ion, Mg2+ (proton number 12)?|10|12|14|2
+i1|Which substance has a simple molecular structure?|Carbon dioxide|Sodium chloride|Diamond|Copper
+# ---------- IGCSE, harder ----------
+i2|Which two ions have the same electronic structure as neon?|Na+ and F-|Na+ and Cl-|K+ and F-|Mg2+ and Cl-
+i2|How many protons, neutrons and electrons are in an aluminium ion, 27Al3+ (proton number 13)?|13 protons, 14 neutrons, 10 electrons|13 protons, 14 neutrons, 13 electrons|10 protons, 14 neutrons, 13 electrons|13 protons, 27 neutrons, 10 electrons
+i2|What is the formula of calcium hydroxide?|Ca(OH)2|CaOH|CaOH2|Ca2OH
+i2|What is the formula of aluminium sulfate? (sulfate is SO4 2-)|Al2(SO4)3|AlSO4|Al3(SO4)2|Al(SO4)3
+i2|What is the formula of sodium carbonate? (carbonate is CO3 2-)|Na2CO3|NaCO3|Na(CO3)2|Na2(CO3)2
+i2|What is the formula of magnesium nitrate? (nitrate is NO3 -)|Mg(NO3)2|MgNO3|Mg2NO3|MgN2O6
+i2|What is the formula of iron(III) oxide?|Fe2O3|FeO3|Fe3O2|FeO
+i2|What is the formula of copper(II) sulfate? (sulfate is SO4 2-)|CuSO4|Cu2SO4|CuSO2|Cu(SO4)2
+i2|What is the formula of ammonium chloride? (ammonium is NH4 +)|NH4Cl|NH3Cl|(NH4)2Cl|NH4Cl2
+i2|Which compound has covalent bonds and a simple molecular structure?|Carbon dioxide|Sodium chloride|Magnesium oxide|Calcium chloride
+i2|Why does magnesium oxide have a higher melting point than sodium chloride?|Mg2+ and O2- ions have higher charges, so the attractions are stronger|Magnesium oxide has covalent bonds|Magnesium oxide has delocalised electrons|Sodium chloride is made of molecules
+i2|Why do ionic crystals shatter when hit?|Layers of ions slide and like charges repel|The molecules break apart|The delocalised electrons escape|Weak forces between molecules break
+i2|Why does iodine turn to a vapour easily when heated?|It has weak forces between its molecules|It has strong covalent bonds|It has a giant structure|It has delocalised electrons
+i2|Why do metals have high melting points?|Strong attraction between the positive ions and the delocalised electrons|Weak forces between molecules|Strong covalent bonds between molecules|Free-moving ions
+i2|Alloys are harder than pure metals because...|atoms of different sizes stop the layers sliding easily|they contain covalent bonds|they have no delocalised electrons|their atoms are all the same size
+i2|In a molecule of ammonia, NH3, how many electrons are in the outer shell of the nitrogen atom after bonding?|8|5|3|10
+i2|In a chlorine molecule, Cl2, how many electrons are shared between the two atoms?|2|1|7|14
+i2|In a molecule of water, how many shared pairs of electrons are there?|2|1|4|8
+i2|Why does diamond not conduct electricity?|It has no free electrons or ions|It has delocalised electrons|It has free ions|It is a metal
+i2|Why does a solution of sodium chloride conduct electricity?|Its ions are free to move|It has delocalised electrons|It contains molecules|Electrons flow through the water
+i2|Which type of substance is usually a gas, a liquid or a low-melting-point solid at room temperature?|Simple molecular|Giant ionic|Giant covalent|Metallic
+i2|Which statement about sodium chloride is correct?|It is a giant lattice of Na+ and Cl- ions|It is made of NaCl molecules|It has delocalised electrons|It has a double covalent bond
+i2|How many lone pairs of electrons are on each chlorine atom in Cl2?|3|1|2|7
+i2|Which ion has the electronic structure 2,8,8?|Ca2+|Mg2+|Na+|O2-
+i2|How many neutrons are in a calcium atom with mass number 40 (proton number 20)?|20|40|60|10
+i2|What is the electronic structure of a sulfur atom (proton number 16)?|2,8,6|2,8,8|2,6,8|2,8,4
 `,
 states:`
 # ---------- lower secondary, easier ----------
