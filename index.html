@@ -419,6 +419,25 @@ function avatar(n,c,s,av){
   var a=validAv(av)?av:(AVC[nameKey(n)]||defaultAv(n));
   return h('span',{class:'avatar',style:'--s:'+s+'px;--pc:var(--p'+c+')','aria-hidden':'true'},avSvg(a));
 }
+function plainQ(t){return t.replace(/^\[\[[a-z]+:[0-9.,;]+\]\]/,'(graph) ')}
+function graphSVG(t){
+  var m=/^\[\[([a-z]+):([0-9.,;]+)\]\]/.exec(t);if(!m)return null;
+  var pts=m[2].split(';').map(function(s){var a=s.split(',');return [+a[0],+a[1]]});
+  var vt=m[1]==='vt',W=330,H=210,L=52,R=14,T=12,B=44,pw=W-L-R,ph=H-T-B;
+  var mx=0,my=0;pts.forEach(function(p){mx=Math.max(mx,p[0]);my=Math.max(my,p[1])});
+  function nice(m){var st=[1,2,5,10,20,50,100,200];for(var i=0;i<st.length;i++)if(m/st[i]<=6)return st[i];return 500}
+  var sx=nice(mx),sy=nice(my),X=Math.ceil(mx/sx)*sx,Y=Math.ceil(my/sy)*sy;
+  function px(v){return (L+v/X*pw).toFixed(1)}function py(v){return (T+ph-v/Y*ph).toFixed(1)}
+  var o='<svg data-g="'+m[0]+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+(vt?'Speed-time':'Distance-time')+' graph" style="width:100%;max-width:420px;height:auto;display:block;margin:0 auto 6px">';
+  o+='<rect x="0" y="0" width="'+W+'" height="'+H+'" rx="8" fill="#fff"/>';
+  for(var x=0;x<=X;x+=sx){o+='<line x1="'+px(x)+'" y1="'+T+'" x2="'+px(x)+'" y2="'+(T+ph)+'" stroke="#d5dbe3" stroke-width="1"/><text x="'+px(x)+'" y="'+(T+ph+14)+'" font-size="11" text-anchor="middle" fill="#222">'+x+'</text>'}
+  for(var y=0;y<=Y;y+=sy){o+='<line x1="'+L+'" y1="'+py(y)+'" x2="'+(L+pw)+'" y2="'+py(y)+'" stroke="#d5dbe3" stroke-width="1"/><text x="'+(L-5)+'" y="'+(+py(y)+4)+'" font-size="11" text-anchor="end" fill="#222">'+y+'</text>'}
+  o+='<line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+(T+ph)+'" stroke="#222" stroke-width="1.6"/><line x1="'+L+'" y1="'+(T+ph)+'" x2="'+(L+pw)+'" y2="'+(T+ph)+'" stroke="#222" stroke-width="1.6"/>';
+  o+='<polyline fill="none" stroke="#d6336c" stroke-width="3" stroke-linejoin="round" points="'+pts.map(function(p){return px(p[0])+','+py(p[1])}).join(' ')+'"/>';
+  o+='<text x="'+(L+pw/2)+'" y="'+(H-6)+'" font-size="12" text-anchor="middle" fill="#222">Time (s)</text>';
+  o+='<text transform="translate(12 '+(T+ph/2)+') rotate(-90)" font-size="12" text-anchor="middle" fill="#222">'+(vt?'Speed (m/s)':'Distance (m)')+'</text></svg>';
+  var d=document.createElement('div');d.innerHTML=o;return d.firstChild;
+}
 function fill(el){var kids=[];for(var i=1;i<arguments.length;i++)[].concat(arguments[i]).forEach(function(k){if(k!=null&&k!==false)kids.push(k)});el.replaceChildren.apply(el,kids);return el}
 function tag(t,cls){return h('span',{class:'tag'+(cls?' '+cls:'')},t)}
 var toastTO;
@@ -714,12 +733,13 @@ var TRACKS=[
   {id:'ptable',name:'The periodic table',short:'Periodic table',mult:1},
   {id:'symbols',name:'Periodic table: names and symbols',short:'Names and symbols',mult:0.8},
   {id:'bonding',name:'Atomic bonding and structure',short:'Bonding',mult:1},
+  {id:'motion',name:'Motion graphs',short:'Motion graphs',mult:1.1},
   {id:'states',name:'States of matter',short:'States of matter',mult:1},
   {id:'cells',name:'Plant and animal cells',short:'Cells',mult:1},
   {id:'mixed',name:'Mixed: a bit of everything',short:'Mixed',mult:1.2}
 ];
-var TOPICS=['ptable','bonding','states','cells'];
-var TOPIC_PRE={ptable:'pt',symbols:'sy',bonding:'bo',states:'st',cells:'ce'};
+var TOPICS=['ptable','bonding','motion','states','cells'];
+var TOPIC_PRE={ptable:'pt',symbols:'sy',bonding:'bo',motion:'mo',states:'st',cells:'ce'};
 var BANK_TEXT={
 ptable:`
 # ---------- lower secondary, easier ----------
@@ -1136,6 +1156,169 @@ i2|Which ion has the electronic structure 2,8,8?|Ca2+|Mg2+|Na+|O2-
 i2|How many neutrons are in a calcium atom with mass number 40 (proton number 20)?|20|40|60|10
 i2|What is the electronic structure of a sulfur atom (proton number 16)?|2,8,6|2,8,8|2,6,8|2,8,4
 `,
+motion:`
+# ---------- lower secondary, easier ----------
+k1|[[vt:0,0;5,20;10,20;14,0]]What is the highest speed reached?|20 m/s|10 m/s|5 m/s|40 m/s
+k1|[[vt:0,0;5,20;10,20;14,0]]For how many seconds is the speed constant?|5 s|4 s|14 s|10 s
+k1|[[vt:0,0;5,20;10,20;14,0]]What is happening between 5 s and 10 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;4,16;10,16;12,0]]What is the highest speed reached?|16 m/s|8 m/s|4 m/s|32 m/s
+k1|[[vt:0,0;4,16;10,16;12,0]]How long does the whole journey take?|12 s|10 s|4 s|8 s
+k1|[[vt:0,0;4,16;10,16;12,0]]What is happening between 4 s and 10 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;4,16;10,16;12,0]]What is happening between 10 s and 12 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k1|[[vt:0,0;6,12;12,12;16,0]]What is the highest speed reached?|12 m/s|6 m/s|24 m/s|16 m/s
+k1|[[vt:0,0;6,12;12,12;16,0]]For how many seconds is the speed constant?|6 s|4 s|16 s|12 s
+k1|[[vt:0,0;6,12;12,12;16,0]]What is happening between 6 s and 12 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;5,10;8,10;10,0]]What is the highest speed reached?|10 m/s|5 m/s|20 m/s|15 m/s
+k1|[[vt:0,0;5,10;8,10;10,0]]How long does the whole journey take?|10 s|8 s|5 s|15 s
+k1|[[vt:0,0;5,10;8,10;10,0]]What is happening between 5 s and 8 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;5,10;8,10;10,0]]What is happening between 8 s and 10 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k1|[[vt:0,0;10,30;20,30;25,0]]What is the highest speed reached?|30 m/s|15 m/s|10 m/s|60 m/s
+k1|[[vt:0,0;10,30;20,30;25,0]]For how many seconds is the speed constant?|10 s|5 s|25 s|20 s
+k1|[[vt:0,0;10,30;20,30;25,0]]What is happening between 10 s and 20 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;4,8;6,8;10,0]]What is the highest speed reached?|8 m/s|4 m/s|16 m/s|10 m/s
+k1|[[vt:0,0;4,8;6,8;10,0]]How long does the whole journey take?|10 s|6 s|4 s|14 s
+k1|[[vt:0,0;4,8;6,8;10,0]]What is happening between 4 s and 6 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;4,8;6,8;10,0]]What is happening between 6 s and 10 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k1|[[vt:0,0;5,25;10,25;15,0]]What is the highest speed reached?|25 m/s|12.5 m/s|5 m/s|50 m/s
+k1|[[vt:0,0;5,25;10,25;15,0]]For how many seconds is the speed constant?|5 s|15 s|10 s|7.5 s
+k1|[[vt:0,0;5,25;10,25;15,0]]What is happening between 5 s and 10 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;8,24;14,24;20,0]]What is the highest speed reached?|24 m/s|12 m/s|8 m/s|48 m/s
+k1|[[vt:0,0;8,24;14,24;20,0]]How long does the whole journey take?|20 s|14 s|8 s|12 s
+k1|[[vt:0,0;8,24;14,24;20,0]]What is happening between 8 s and 14 s?|Moving at constant speed|Accelerating|Slowing down|Stationary
+k1|[[vt:0,0;8,24;14,24;20,0]]What is happening between 14 s and 20 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k1|[[dt:0,0;4,20;8,20;12,0]]How far has the object travelled after 4 s?|20 m|10 m|4 m|40 m
+k1|[[dt:0,0;4,20;8,20;12,0]]What is happening between 4 s and 8 s?|It is stationary (not moving)|Moving at constant speed|Speeding up|Slowing down
+k1|[[dt:0,0;5,10;10,10;15,40]]How far has the object travelled after 5 s?|10 m|5 m|20 m|40 m
+k1|[[dt:0,0;5,10;10,10;15,40]]What is happening between 5 s and 10 s?|It is stationary (not moving)|Moving at constant speed|Speeding up|Slowing down
+k1|[[dt:0,0;5,10;10,10;15,40]]For how long is the object stationary?|5 s|10 s|15 s|7.5 s
+k1|[[dt:0,0;10,50;20,50;30,0]]How far has the object travelled after 10 s?|50 m|25 m|10 m|100 m
+k1|[[dt:0,0;10,50;20,50;30,0]]What is happening between 10 s and 20 s?|It is stationary (not moving)|Moving at constant speed|Speeding up|Slowing down
+k1|[[dt:0,0;6,12;10,12;14,40]]How far has the object travelled after 6 s?|12 m|6 m|24 m|40 m
+k1|[[dt:0,0;6,12;10,12;14,40]]What is happening between 6 s and 10 s?|It is stationary (not moving)|Moving at constant speed|Speeding up|Slowing down
+k1|[[dt:0,0;6,12;10,12;14,40]]For how long is the object stationary?|4 s|6 s|10 s|14 s
+k1|[[dt:0,0;5,25;8,25;12,0]]How far has the object travelled after 5 s?|25 m|12.5 m|5 m|50 m
+k1|[[dt:0,0;5,25;8,25;12,0]]What is happening between 5 s and 8 s?|It is stationary (not moving)|Moving at constant speed|Speeding up|Slowing down
+k1|[[dt:0,0;4,8;8,8;10,20]]How far has the object travelled after 4 s?|8 m|4 m|16 m|20 m
+k1|[[dt:0,0;4,8;8,8;10,20]]What is happening between 4 s and 8 s?|It is stationary (not moving)|Moving at constant speed|Speeding up|Slowing down
+k1|[[dt:0,0;4,8;8,8;10,20]]For how long is the object stationary?|4 s|2 s|8 s|10 s
+k1|[[dt:0,0;10,20;15,20;20,60]]How far has the object travelled after 10 s?|20 m|10 m|40 m|60 m
+k1|[[dt:0,0;10,20;15,20;20,60]]What is happening between 10 s and 15 s?|It is stationary (not moving)|Moving at constant speed|Speeding up|Slowing down
+k1|On a distance-time graph, a horizontal line means the object is...|stationary|moving at constant speed|accelerating|moving backwards at constant speed
+k1|On a distance-time graph, a straight sloping line means the object is moving at...|constant speed|increasing speed|decreasing speed|no speed
+k1|On a distance-time graph, a steeper line means the object is moving...|faster|slower|backwards|at the same speed
+k1|On a speed-time graph, a horizontal line means the object is moving at...|constant speed|constant acceleration|no speed|increasing speed
+k1|On a speed-time graph, a line going upwards means the object is...|speeding up|slowing down|stationary|moving at constant speed
+k1|On a speed-time graph, a line going downwards means the object is...|slowing down|speeding up|stationary|moving at constant speed
+k1|What do we usually plot on the x-axis (the horizontal axis) of a motion graph?|Time|Speed|Distance|Mass
+k1|What is the unit of speed?|m/s|m/s²|s/m|kg
+k1|What is the unit of acceleration?|m/s²|m/s|m|s
+k1|The speed of an object is the distance it travels...|every second|in total|without stopping|in a straight line only
+# ---------- lower secondary, harder ----------
+k2|[[vt:0,0;5,20;10,20;14,0]]What is happening between 10 s and 14 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k2|[[vt:0,0;5,20;10,20;14,0]]What is the acceleration during the first 5 s?|4 m/s²|100 m/s²|15 m/s²|0.25 m/s²
+k2|[[vt:0,0;4,16;10,16;12,0]]What is the acceleration during the first 4 s?|4 m/s²|64 m/s²|12 m/s²|0.25 m/s²
+k2|[[vt:0,0;6,12;12,12;16,0]]What is happening between 12 s and 16 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k2|[[vt:0,0;6,12;12,12;16,0]]What is the acceleration during the first 6 s?|2 m/s²|72 m/s²|6 m/s²|0.5 m/s²
+k2|[[vt:0,0;5,10;8,10;10,0]]What is the acceleration during the first 5 s?|2 m/s²|50 m/s²|5 m/s²|0.5 m/s²
+k2|[[vt:0,0;10,30;20,30;25,0]]What is happening between 20 s and 25 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k2|[[vt:0,0;10,30;20,30;25,0]]What is the acceleration during the first 10 s?|3 m/s²|300 m/s²|20 m/s²|0.33 m/s²
+k2|[[vt:0,0;5,25;10,25;15,0]]What is happening between 10 s and 15 s?|Slowing down (decelerating)|Accelerating|Moving at constant speed|Stationary
+k2|[[dt:0,0;4,20;8,20;12,0]]For how long is the object stationary?|4 s|8 s|12 s|6 s
+k2|[[dt:0,0;4,20;8,20;12,0]]What is the speed during the first 4 s?|5 m/s|80 m/s|20 m/s|4 m/s
+k2|[[dt:0,0;5,10;10,10;15,40]]What is the speed during the first 5 s?|2 m/s|50 m/s|10 m/s|5 m/s
+k2|[[dt:0,0;10,50;20,50;30,0]]For how long is the object stationary?|10 s|20 s|30 s|15 s
+k2|[[dt:0,0;10,50;20,50;30,0]]What is the speed during the first 10 s?|5 m/s|500 m/s|50 m/s|10 m/s
+k2|[[dt:0,0;6,12;10,12;14,40]]What is the speed during the first 6 s?|2 m/s|72 m/s|12 m/s|6 m/s
+k2|[[dt:0,0;5,25;8,25;12,0]]For how long is the object stationary?|3 s|5 s|4 s|8 s
+k2|[[dt:0,0;5,25;8,25;12,0]]What is the speed during the first 5 s?|5 m/s|125 m/s|25 m/s|20 m/s
+k2|[[dt:0,0;4,8;8,8;10,20]]What is the speed during the first 4 s?|2 m/s|32 m/s|8 m/s|4 m/s
+k2|[[dt:0,0;10,20;15,20;20,60]]For how long is the object stationary?|5 s|10 s|15 s|20 s
+k2|[[dt:0,0;10,20;15,20;20,60]]What is the speed during the first 10 s?|2 m/s|200 m/s|20 m/s|10 m/s
+k2|The gradient of a distance-time graph tells us the...|speed|acceleration|distance|time
+k2|The gradient of a speed-time graph tells us the...|acceleration|speed|distance travelled|time
+k2|The area under a speed-time graph tells us the...|distance travelled|acceleration|speed|time
+k2|A car travels 100 m in 20 s. What is its average speed?|5 m/s|2000 m/s|0.2 m/s|80 m/s
+k2|A cyclist travels at 8 m/s for 10 s. How far does she go?|80 m|0.8 m|18 m|8 m
+k2|A runner covers 400 m at 8 m/s. How long does it take?|50 s|3200 s|392 s|0.02 s
+k2|Which formula gives speed?|distance ÷ time|distance × time|time ÷ distance|distance + time
+k2|A flat line on a distance-time graph at a height of 30 m means the object is...|30 m away from the start and not moving|moving at 30 m/s|accelerating at 30 m/s²|back at the start
+# ---------- IGCSE, easier ----------
+i1|[[vt:0,0;5,20;10,20;14,0]]What is the deceleration during the last 4 s?|5 m/s²|80 m/s²|1.43 m/s²|20 m/s²
+i1|[[vt:0,0;5,20;10,20;14,0]]What is the total distance travelled?|190 m|280 m|200 m|95 m
+i1|[[vt:0,0;4,16;10,16;12,0]]What is the deceleration during the last 2 s?|8 m/s²|32 m/s²|1.33 m/s²|16 m/s²
+i1|[[vt:0,0;4,16;10,16;12,0]]What is the total distance travelled?|144 m|192 m|160 m|72 m
+i1|[[vt:0,0;6,12;12,12;16,0]]What is the deceleration during the last 4 s?|3 m/s²|48 m/s²|0.75 m/s²|12 m/s²
+i1|[[vt:0,0;6,12;12,12;16,0]]What is the total distance travelled?|132 m|192 m|144 m|66 m
+i1|[[vt:0,0;5,10;8,10;10,0]]What is the deceleration during the last 2 s?|5 m/s²|20 m/s²|1 m/s²|10 m/s²
+i1|[[vt:0,0;5,10;8,10;10,0]]What is the total distance travelled?|65 m|100 m|80 m|32.5 m
+i1|[[vt:0,0;10,30;20,30;25,0]]What is the deceleration during the last 5 s?|6 m/s²|150 m/s²|1.2 m/s²|30 m/s²
+i1|[[vt:0,0;4,8;6,8;10,0]]What is the acceleration during the first 4 s?|2 m/s²|32 m/s²|4 m/s²|0.5 m/s²
+i1|[[vt:0,0;4,8;6,8;10,0]]What is the deceleration during the last 4 s?|2 m/s²|32 m/s²|0.8 m/s²|8 m/s²
+i1|[[vt:0,0;5,25;10,25;15,0]]What is the acceleration during the first 5 s?|5 m/s²|125 m/s²|20 m/s²|0.2 m/s²
+i1|[[vt:0,0;5,25;10,25;15,0]]What is the deceleration during the last 5 s?|5 m/s²|125 m/s²|1.67 m/s²|25 m/s²
+i1|[[vt:0,0;8,24;14,24;20,0]]What is the acceleration during the first 8 s?|3 m/s²|192 m/s²|16 m/s²|0.33 m/s²
+i1|[[vt:0,0;8,24;14,24;20,0]]What is the deceleration during the last 6 s?|4 m/s²|144 m/s²|1.2 m/s²|24 m/s²
+i1|[[dt:0,0;4,20;8,20;12,0]]What is happening during the last 4 s?|The object returns towards the start|The object keeps moving away|The object is stationary|The object speeds up away from the start
+i1|[[dt:0,0;5,10;10,10;15,40]]What is the speed during the last 5 s?|6 m/s|8 m/s|200 m/s|2 m/s
+i1|[[dt:0,0;5,10;10,10;15,40]]Which part of the journey is fastest?|The last part|The first part|The flat part|They are the same
+i1|[[dt:0,0;10,50;20,50;30,0]]What is happening during the last 10 s?|The object returns towards the start|The object keeps moving away|The object is stationary|The object speeds up away from the start
+i1|[[dt:0,0;6,12;10,12;14,40]]What is the speed during the last 4 s?|7 m/s|10 m/s|160 m/s|2 m/s
+i1|[[dt:0,0;6,12;10,12;14,40]]Which part of the journey is fastest?|The last part|The first part|The flat part|They are the same
+i1|[[dt:0,0;5,25;8,25;12,0]]What is happening during the last 4 s?|The object returns towards the start|The object keeps moving away|The object is stationary|The object speeds up away from the start
+i1|[[dt:0,0;4,8;8,8;10,20]]What is the speed during the last 2 s?|6 m/s|10 m/s|40 m/s|2 m/s
+i1|[[dt:0,0;4,8;8,8;10,20]]Which part of the journey is fastest?|The last part|The first part|The flat part|They are the same
+i1|[[dt:0,0;10,20;15,20;20,60]]What is the speed during the last 5 s?|8 m/s|12 m/s|300 m/s|2 m/s
+i1|[[dt:0,0;10,20;15,20;20,60]]Which part of the journey is fastest?|The last part|The first part|The flat part|They are the same
+i1|An object accelerates from 0 to 20 m/s in 4 s. What is its acceleration?|5 m/s²|80 m/s²|0.2 m/s²|16 m/s²
+i1|An object accelerates from 5 m/s to 25 m/s in 10 s. What is its acceleration?|2 m/s²|3 m/s²|20 m/s²|0.5 m/s²
+i1|A car slows from 30 m/s to 0 in 6 s. What is its deceleration?|5 m/s²|180 m/s²|24 m/s²|0.2 m/s²
+i1|What is the equation for acceleration?|change in speed ÷ time taken|speed × time|distance ÷ time|time ÷ change in speed
+i1|On a speed-time graph, a straight sloping line means...|constant acceleration|constant speed|no acceleration|increasing acceleration
+i1|A steeper line on a speed-time graph means a...|larger acceleration|larger distance|lower acceleration|higher constant speed
+i1|On a speed-time graph, a line on the x-axis (speed = 0) means the object is...|stationary|accelerating|moving at constant speed|moving backwards
+i1|A distance-time graph is a curve that gets steeper. The object is...|accelerating|decelerating|at constant speed|stationary
+i1|A distance-time graph is a curve that gets flatter. The object is...|decelerating|accelerating|at constant speed|stationary
+# ---------- IGCSE, harder ----------
+i2|[[vt:0,0;5,20;10,20;14,0]]What distance is travelled while moving at constant speed?|100 m|50 m|190 m|200 m
+i2|[[vt:0,0;5,20;10,20;14,0]]What is the average speed for the whole journey?|13.57 m/s|20 m/s|10 m/s|19 m/s
+i2|[[vt:0,0;4,16;10,16;12,0]]What distance is travelled while moving at constant speed?|96 m|32 m|144 m|160 m
+i2|[[vt:0,0;4,16;10,16;12,0]]What is the average speed for the whole journey?|12 m/s|16 m/s|8 m/s|14.4 m/s
+i2|[[vt:0,0;6,12;12,12;16,0]]What distance is travelled while moving at constant speed?|72 m|36 m|132 m|144 m
+i2|[[vt:0,0;6,12;12,12;16,0]]What is the average speed for the whole journey?|8.25 m/s|12 m/s|6 m/s|11 m/s
+i2|[[vt:0,0;5,10;8,10;10,0]]What distance is travelled while moving at constant speed?|30 m|25 m|65 m|80 m
+i2|[[vt:0,0;5,10;8,10;10,0]]What is the average speed for the whole journey?|6.5 m/s|10 m/s|5 m/s|8.12 m/s
+i2|[[vt:0,0;10,30;20,30;25,0]]What is the total distance travelled?|525 m|750 m|600 m|262.5 m
+i2|[[vt:0,0;10,30;20,30;25,0]]What distance is travelled while moving at constant speed?|300 m|150 m|525 m|600 m
+i2|[[vt:0,0;10,30;20,30;25,0]]What is the average speed for the whole journey?|21 m/s|30 m/s|15 m/s|26.25 m/s
+i2|[[vt:0,0;4,8;6,8;10,0]]What is the total distance travelled?|48 m|80 m|24 m|96 m
+i2|[[vt:0,0;4,8;6,8;10,0]]What distance is travelled while moving at constant speed?|16 m|48 m|32 m|24 m
+i2|[[vt:0,0;4,8;6,8;10,0]]What is the average speed for the whole journey?|4.8 m/s|8 m/s|4 m/s|7.2 m/s
+i2|[[vt:0,0;5,25;10,25;15,0]]What is the total distance travelled?|250 m|375 m|125 m|500 m
+i2|[[vt:0,0;5,25;10,25;15,0]]What distance is travelled while moving at constant speed?|125 m|62.5 m|250 m|187.5 m
+i2|[[vt:0,0;5,25;10,25;15,0]]What is the average speed for the whole journey?|16.67 m/s|25 m/s|12.5 m/s|33.33 m/s
+i2|[[vt:0,0;8,24;14,24;20,0]]What is the total distance travelled?|312 m|480 m|336 m|156 m
+i2|[[vt:0,0;8,24;14,24;20,0]]What distance is travelled while moving at constant speed?|144 m|96 m|312 m|336 m
+i2|[[vt:0,0;8,24;14,24;20,0]]What is the average speed for the whole journey?|15.6 m/s|24 m/s|12 m/s|22.29 m/s
+i2|[[dt:0,0;4,20;8,20;12,0]]What is the total distance travelled by the object (out and back)?|40 m|20 m|60 m|12 m
+i2|[[dt:0,0;4,20;8,20;12,0]]What is the displacement from the start at 12 s?|0 m|20 m|40 m|12 m
+i2|[[dt:0,0;5,10;10,10;15,40]]What is the average speed for the whole 15 s?|2.67 m/s|2 m/s|6 m/s|8 m/s
+i2|[[dt:0,0;10,50;20,50;30,0]]What is the total distance travelled by the object (out and back)?|100 m|50 m|150 m|30 m
+i2|[[dt:0,0;10,50;20,50;30,0]]What is the displacement from the start at 30 s?|0 m|50 m|100 m|30 m
+i2|[[dt:0,0;6,12;10,12;14,40]]What is the average speed for the whole 14 s?|2.86 m/s|2 m/s|7 m/s|10 m/s
+i2|[[dt:0,0;5,25;8,25;12,0]]What is the total distance travelled by the object (out and back)?|50 m|25 m|75 m|12 m
+i2|[[dt:0,0;5,25;8,25;12,0]]What is the displacement from the start at 12 s?|0 m|25 m|50 m|12 m
+i2|[[dt:0,0;4,8;8,8;10,20]]What is the average speed for the whole 10 s?|2 m/s|6 m/s|10 m/s|4 m/s
+i2|[[dt:0,0;10,20;15,20;20,60]]What is the average speed for the whole 20 s?|3 m/s|2 m/s|8 m/s|12 m/s
+i2|A speed-time graph is a curve that gets steeper. What does this mean?|The acceleration is increasing|The acceleration is decreasing|The speed is constant|The object is stationary
+i2|On a speed-time graph, how do you find the distance travelled?|Find the area under the graph|Find the gradient|Read the highest point|Read the final speed
+i2|On a distance-time graph, how do you find the speed?|Calculate the gradient|Find the area under the graph|Read the final distance|Multiply distance by time
+i2|A speed-time graph is a line sloping upwards then flat. What was the motion?|Accelerating then constant speed|Constant speed then accelerating|Accelerating then decelerating|Decelerating then stationary
+i2|An object travels at 12 m/s for 5 s then at 20 m/s for 5 s. What is the total distance?|160 m|320 m|32 m|100 m
+i2|A train accelerates uniformly from rest at 0.5 m/s² for 20 s. What speed does it reach?|10 m/s|40 m/s|0.025 m/s|20.5 m/s
+i2|What is the average speed of a car that travels 90 m in 5 s and then 110 m in 5 s?|20 m/s|18 m/s|22 m/s|200 m/s
+i2|The line on a speed-time graph is horizontal at 15 m/s between 4 s and 10 s. What distance is travelled in this time?|90 m|150 m|60 m|25 m
+i2|Deceleration shown on a speed-time graph has a gradient that is...|negative|positive|zero|infinite
+`,
 states:`
 # ---------- lower secondary, easier ----------
 k1|Which of these is a state of matter?|Gas|Energy|Light|Sound
@@ -1391,7 +1574,7 @@ function makeQ(g,i,t,lv,tk,sg){
   var opts=[it.a].concat(it.w);
   for(var k=opts.length-1;k>0;k--){var j=Math.floor(rng()*(k+1)),tmp=opts[k];opts[k]=opts[j];opts[j]=tmp}
   return {txt:it.q,opts:opts,ans:opts.indexOf(it.a),ca:it.a,fid:it.id,
-    base:Math.round(STAGES[stageIdx(sg)].pts*TRACKS[trackIdx(tk)].mult),full:it.q+'  →  '+it.a};
+    base:Math.round(STAGES[stageIdx(sg)].pts*TRACKS[trackIdx(tk)].mult),full:plainQ(it.q)+'  →  '+it.a};
 }
 function updateLevel(){
   if(S.mode==='solo'){me.lv=0;return}
@@ -1938,7 +2121,7 @@ VIEWS.profile=function(){
         h('p',{class:'note'},'Every question you have answered, across all rounds.'),
         h('div',null,topicRows),
         h('div',{class:'label'},'Work on these next'),
-        weak.length?h('div',{class:'mchips'},weak.map(function(x){return h('span',{class:'mchip'},x.q.q+'  →  '+x.q.a,h('i',null,Math.round(x.acc*100)+'%'))})):h('p',{class:'note'},'Nothing is wobbling right now.')));
+        weak.length?h('div',{class:'mchips'},weak.map(function(x){return h('span',{class:'mchip'},plainQ(x.q.q)+'  →  '+x.q.a,h('i',null,Math.round(x.acc*100)+'%'))})):h('p',{class:'note'},'Nothing is wobbling right now.')));
       out.push(h('section',{class:'panel'},h('h2',null,'Recent rounds'),h('div',null,d.recent.map(function(r){
         var when=r.t?new Date(r.t).toLocaleDateString(undefined,{month:'short',day:'numeric'}):'';
         return h('div',{class:'hrow'},h('span',null,when+' · '+(r.m==='solo'?'On my own':'With friends')+(r.tk?' · '+TRACKS[trackIdx(r.tk)].short+' · '+(r.sg==='ig'?'IGCSE':'Lower sec.'):'')),h('span',null,r.sc+' pts · '+r.r+' right · '+r.w+' wrong'));
@@ -2040,7 +2223,7 @@ function drawGame(){
   E.keys.classList.toggle('off',counting);E.opts.classList.toggle('off',counting);
   if(counting)E.count.textContent=String(Math.max(1,Math.ceil((P.countEnd-Date.now())/1000)));
   if(P.q&&!counting&&P.qShown!==P.i){
-    E.q.className='q txt sci';fill(E.q,P.q.txt);
+    E.q.className='q txt sci';(function(){var g=graphSVG(P.q.txt);fill(E.q,g,g?P.q.txt.replace(/^\[\[[^\]]*\]\]/,''):P.q.txt)})();
     E.ansPre.textContent=P.q.pre||'';
     if(P.q.opts)fill(E.opts,P.q.opts.map(function(v,n){return h('button',{type:'button',class:'opt','aria-label':'Answer '+(n+1)+': '+v,onclick:function(){pickOpt(n)}},h('span',{class:'on'},String(n+1)),String(v))}));
     P.qShown=P.i;
